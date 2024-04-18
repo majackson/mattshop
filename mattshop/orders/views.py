@@ -18,12 +18,12 @@ class OrderListView(ListAPIView):
 
 class OrderCreateView(APIView):
     def put(self, request, *args, **kwargs):
-        order_data = CreateOrderSerializer(data=request.data, many=True)
+        order_data = CreateOrderSerializer(data=request.data)
         if not order_data.is_valid():
             return Response(order_data.errors, status=status.HTTP_400_BAD_REQUEST)
 
         try:
-            new_order = create_order(request.user, order_data.validated_data)
+            new_order = create_order(request.user, order_data.validated_data['items'])
             return Response({
                 'order_id': new_order.id,
                 'message': "Successfully created order"

@@ -91,9 +91,9 @@ def test_order_create_view():
     user = get_user_model().objects.create_user(username='test')
     token, _ = Token.objects.get_or_create(user=user)
     product = ProductFactory(quantity_in_stock=12, prices__price=50)
-    resp = Client().put('/orders/create/', json.dumps([
-        {'product_id': product.id, 'quantity': 3}
-    ]), content_type='application/json', HTTP_AUTHORIZATION=f'Token {token.key}')
+    resp = Client().put('/orders/create/', json.dumps({
+        'items': [{'product_id': product.id, 'quantity': 3}]
+    }), content_type='application/json', HTTP_AUTHORIZATION=f'Token {token.key}')
 
     assert resp.status_code == status.HTTP_201_CREATED
 
@@ -125,9 +125,9 @@ def test_order_view_out_of_stock():
     user = get_user_model().objects.create_user(username='test')
     token, _ = Token.objects.get_or_create(user=user)
     product = ProductFactory(quantity_in_stock=1)
-    resp = Client().put('/orders/create/', json.dumps([
-        {'product_id': product.id, 'quantity': 3}
-    ]), content_type='application/json', HTTP_AUTHORIZATION=f'Token {token.key}')
+    resp = Client().put('/orders/create/', json.dumps({
+        'items': [{'product_id': product.id, 'quantity': 3}]
+    }), content_type='application/json', HTTP_AUTHORIZATION=f'Token {token.key}')
 
     assert resp.status_code == status.HTTP_400_BAD_REQUEST
 
