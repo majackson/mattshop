@@ -25,6 +25,8 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
 
+    'rest_framework.authtoken',
+
     'mattshop.healthcheck',
 ]
 

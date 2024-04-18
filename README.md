@@ -19,5 +19,6 @@ A dockerised django project representing an API for a simple shop, backed by a p
 ### Endpoints
 
 * `/healthcheck/heartbeat/` - An endpoint that always returns a 200.
+* `/login` - Endpoint to acquire an auth token required for interacting with all subsequent endpoints.
 
 ## Technical Decisions
