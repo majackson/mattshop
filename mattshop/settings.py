@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
 
     'mattshop.healthcheck',
+    'mattshop.products',
 ]
 
 MIDDLEWARE = [
@@ -42,7 +43,6 @@ ROOT_URLCONF = 'mattshop.urls'
 TEMPLATES = []
 
 WSGI_APPLICATION = 'mattshop.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
@@ -78,6 +78,14 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': ['rest_framework.authentication.TokenAuthentication'],
+    'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.IsAuthenticated'],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 20,
+}
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
@@ -87,7 +95,7 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Default primary key field type

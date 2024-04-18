@@ -1,4 +1,3 @@
-from django.urls import reverse
 from django.test import Client
 
 from rest_framework import status
