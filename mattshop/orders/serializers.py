@@ -4,6 +4,7 @@ from mattshop.orders.models import Order, OrderItem
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
+    product = serializers.StringRelatedField()
 
     class Meta:
         model = OrderItem
