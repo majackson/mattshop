@@ -5,6 +5,9 @@ class Product(models.Model):
     enabled = models.BooleanField(default=True)
     quantity_in_stock = models.IntegerField()
 
+    def __str__(self):
+        return self.name
+
     class Meta:
         ordering = ['name']
 

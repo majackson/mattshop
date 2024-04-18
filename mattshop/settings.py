@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'mattshop.healthcheck',
     'mattshop.authentication',
     'mattshop.products',
+    'mattshop.orders',
 ]
 
 MIDDLEWARE = [

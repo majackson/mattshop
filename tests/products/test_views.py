@@ -9,7 +9,7 @@ from mattshop.products.factories import ProductFactory
 import pytest
 
 @pytest.mark.django_db
-def test_empty_list_view():
+def test_product_list_empty_list_view():
     resp = Client().get('/products/list/')
     assert resp.status_code == status.HTTP_200_OK
     assert json.loads(resp.content)['results'] == []
@@ -24,7 +24,7 @@ def test_empty_list_view():
     ('PATCH', False),
     ('DELETE', False),
 ])
-def test_supported_http_verbs(verb, supported):
+def test_product_list_supported_http_verbs(verb, supported):
     client = Client()
     client_method = getattr(client, verb.lower())
     resp = client_method('/products/list/')
@@ -32,7 +32,7 @@ def test_supported_http_verbs(verb, supported):
     assert resp.status_code == expected
 
 @pytest.mark.django_db
-def test_list_view_unpaginated():
+def test_product_list_view_unpaginated():
     ProductFactory(enabled=True, name='rice (kgs)', quantity_in_stock=5, prices__price='10.00')
     resp = Client().get('/products/list/')
     assert resp.status_code == status.HTTP_200_OK
@@ -46,7 +46,7 @@ def test_list_view_unpaginated():
 
 
 @pytest.mark.django_db
-def test_list_view_unpaginated():
+def test_product_list_view_unpaginated():
     ProductFactory(name='rice (kgs)', quantity_in_stock=5, prices__price='10.00')
     resp = Client().get('/products/list/')
     assert resp.status_code == status.HTTP_200_OK
@@ -61,7 +61,7 @@ def test_list_view_unpaginated():
 
 
 @pytest.mark.django_db
-def test_list_view_pages():
+def test_product_list_view_pages():
     for _ in range(25):  # enough to cause paging
         ProductFactory()
 

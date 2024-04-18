@@ -21,5 +21,7 @@ A dockerised django project representing an API for a simple shop, backed by a p
 * `/healthcheck/heartbeat/` - An endpoint that always returns a 200.
 * `/auth/login/` - Endpoint to acquire an auth token required for interacting with all subsequent endpoints.
 * `/products/list/` - Endpoint to view a paginated list of products.
+* `/order/create/` - Endpoint to create a new order.
+* `/order/history/` - Endpoint to view a list of all previous orders made by a givenr requesting user.
 
 ## Technical Decisions
