@@ -9,7 +9,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         fake = Faker()
         username = fake.user_name()
-        password = fake.password()
+        password = fake.word()
         User.objects.create_user(username=username, password=password)
 
         print("User created. Username: '{}', Password '{}'.".format(username, password))
