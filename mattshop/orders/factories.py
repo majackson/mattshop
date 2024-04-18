@@ -28,3 +28,4 @@ class OrderFactory(DjangoModelFactory):
 
     class Meta:
         model = Order
+        skip_postgeneration_save = True

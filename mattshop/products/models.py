@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime
 
 class Product(models.Model):
     name = models.CharField(max_length=100)
@@ -7,6 +8,10 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_current_price(self):
+        current_price = self.prices.filter(effective_from__lte=datetime.now()).order_by('-effective_from').first()
+        return current_price.price
 
     class Meta:
         ordering = ['name']

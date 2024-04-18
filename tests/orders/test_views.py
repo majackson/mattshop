@@ -6,9 +6,13 @@ from django.test import Client
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 
-from mattshop.orders.factories import OrderFactory, OrderItemFactory
+from mattshop.orders.models import Order
+from mattshop.orders.factories import OrderFactory
 
 import pytest
+
+from mattshop.products.factories import ProductFactory
+
 
 @pytest.mark.django_db
 def test_order_history_requires_authentication():
@@ -80,3 +84,52 @@ def test_order_history_pages():
 
     results = json.loads(resp.content)['results']
     assert len(results) == 5
+
+
+@pytest.mark.django_db
+def test_order_create_view():
+    user = get_user_model().objects.create_user(username='test')
+    token, _ = Token.objects.get_or_create(user=user)
+    product = ProductFactory(quantity_in_stock=12, prices__price=50)
+    resp = Client().put('/orders/create/', json.dumps([
+        {'product_id': product.id, 'quantity': 3}
+    ]), content_type='application/json', HTTP_AUTHORIZATION=f'Token {token.key}')
+
+    assert resp.status_code == status.HTTP_201_CREATED
+
+    orders = Order.objects.filter(user=user)
+    assert orders.count() == 1
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize(('verb', 'supported'), [
+    ('GET', False),
+    ('HEAD', False),
+    ('POST', False),
+    ('PUT', True),
+    ('PATCH', False),
+    ('DELETE', False),
+])
+def test_order_view_supported_http_verbs(verb, supported):
+    client = Client()
+    client_method = getattr(client, verb.lower())
+    user = get_user_model().objects.create_user(username='test')
+    token, _ = Token.objects.get_or_create(user=user)
+    resp = client_method('/orders/create/', content_type='application/json', HTTP_AUTHORIZATION=f'Token {token.key}')
+    expected = status.HTTP_400_BAD_REQUEST if supported else status.HTTP_405_METHOD_NOT_ALLOWED
+    assert resp.status_code == expected
+
+
+@pytest.mark.django_db
+def test_order_view_out_of_stock():
+    user = get_user_model().objects.create_user(username='test')
+    token, _ = Token.objects.get_or_create(user=user)
+    product = ProductFactory(quantity_in_stock=1)
+    resp = Client().put('/orders/create/', json.dumps([
+        {'product_id': product.id, 'quantity': 3}
+    ]), content_type='application/json', HTTP_AUTHORIZATION=f'Token {token.key}')
+
+    assert resp.status_code == status.HTTP_400_BAD_REQUEST
+
+    orders = Order.objects.filter(user=user)
+    assert orders.count() == 0
