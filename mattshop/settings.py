@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
 
     'mattshop.healthcheck',
+    'mattshop.authentication',
     'mattshop.products',
 ]
 

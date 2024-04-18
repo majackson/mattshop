@@ -20,7 +20,7 @@ class TestLogin:
     def test_login_success(self):
         user = User.objects.create_user(**self.user_details)
 
-        resp = Client().post('/login/', json.dumps({
+        resp = Client().post('/auth/login/', json.dumps({
             'username': user.username,
             'password': 'thisismypassword'
         }), content_type='application/json')
@@ -31,7 +31,7 @@ class TestLogin:
     def test_login_failure(self):
         user = User.objects.create_user(**self.user_details)
 
-        resp = Client().post('/login/', json.dumps({
+        resp = Client().post('/auth/login/', json.dumps({
             'username': user.username,
             'password': 'thisisNOTmypassword'
         }), content_type='application/json')

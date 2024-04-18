@@ -1,5 +1,5 @@
 bootstrap:
-	make build && make migrate
+	make build && make migrate && make django DJANGO_CMD=create_user
 
 build:
 	docker compose build
