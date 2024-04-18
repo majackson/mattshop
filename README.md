@@ -16,6 +16,7 @@ Use the Makefile to set up a local development environment.`make bootstrap` is a
 * `make django` - runs any `manage.py` command - add any additional commands by embedding in the DJANGO_CMD env var.
 * `make test` - runs project unit tests.
 * `make exec` - run a command on the container. Add the command itself in the CMD env var.
+* `make load-fixture` - load some supplied fixture data for local testing.
 
 
 ### Endpoints

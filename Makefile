@@ -16,6 +16,9 @@ shell:
 migrate:
 	DJANGO_CMD=migrate make django
 
+load-fixture:
+	DJANGO_CMD="loaddata fixture.json" make django
+
 run:
 	docker compose up
 
