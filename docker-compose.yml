@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+
+  db:
+    container_name: mattshop_db
+    image: postgres
+    environment:
+      - POSTGRES_DB=mattshop
+      - POSTGRES_PASSWORD=mattshop
+
+  api:
+    container_name: mattshop_api
+    build: .
+    command: poetry run uwsgi --http :8000 --module mattshop.wsgi
+    environment:
+      - PYTHONUNBUFFERED=1
+      - POSTGRES_HOST=db
+      - POSTGRES_PASSWORD=mattshop
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
