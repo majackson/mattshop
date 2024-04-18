@@ -63,7 +63,7 @@ def test_product_list_view_unpaginated():
 @pytest.mark.django_db
 def test_product_list_view_pages():
     for _ in range(25):  # enough to cause paging
-        ProductFactory()
+        ProductFactory(quantity_in_stock=2)
 
     resp = Client().get('/products/list/')
     assert resp.status_code == status.HTTP_200_OK
