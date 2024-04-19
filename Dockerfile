@@ -17,5 +17,5 @@ ADD . /code/
 
 RUN poetry install
 
-CMD poetry run uwsgi --http :8000 --module mattshop.wsgi
+CMD poetry run ./manage.py migrate && poetry run uwsgi --http :8000 --module mattshop.wsgi
 
